@@ -1,0 +1,28 @@
+            HTTP/1.1 200 OK
+Date: Fri, 31 Dec 1999 12:42:57 GMT
+Server: Apache/2.2.22 (Debian)
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>PWND!</title>
+<style>
+body {
+  color: green;
+  background-color: black;
+  text-align: center; 
+}
+.bl {
+  animation: blinker 0.5s linear infinite;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0; }
+}
+</style>
+</head>
+<body>
+<h1 class="bl">PWD</h1>
+</body>
+</html>
+
