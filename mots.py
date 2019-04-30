@@ -9,7 +9,7 @@ __status__ = "Prototype"
 try:
 	# CLI Arguments and exiting.
 	import optparse
-	import sys
+	import sys, os
 
 	# NIC and packet forging.
 	import netifaces

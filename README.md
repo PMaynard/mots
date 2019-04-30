@@ -2,6 +2,8 @@
 
 `mots.py` is script that monitors for a trigger, then injects TCP segments. Currently supports HTTP and IEC104. 
 
+![mots running](mots.gif)
+
 # Usage
 
 Requires the following runtime dependencies: 
