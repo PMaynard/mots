@@ -41,6 +41,48 @@ The script will cache the payloads in memory, you will need to restart the scrip
 - iec104.dat: Contains a captured response from WinPP104. (single-point, double-points, and step-position information)
 - iec104-two-step-position.dat: Contains two step position. 
 
+# Packet Captures
+
+This repository contains a number of packet captures, showing injections attacks on both protocols.
+
+## Experiment One: HTTP Inject Response Page
+
+- Attacker (.95): `python mots.py -l ens8 -i ens3 -b 'src host 10.50.50.96 and dst host 10.50.50.97' -r 'GET /' -d data/http.dat`
+- victim (.96): `links http://10.50.50.97`
+- Server (.97: `tc qdisc add dev ens3 root netem delay 500ms`; nginx running
+- PCAP: EXP01-http-inject-page.pcapng
+
+First GET: Normal victim -> Links Server
+Second GET: Attacker runs mots.py as above (Injected packet ID: 22671 response to 42744)
+
+## Experiment Two: HTTP Inject Redirect
+
+- Attacker (.95): `python mots.py -l ens8 -i ens3 -b 'src host 10.50.50.96 and dst host 10.50.50.97' -r 'GET /' -d data/http-dat.dat`
+- victim (.96): `links http://10.50.50.97`
+- Server (.97: `tc qdisc add dev ens3 root netem delay 500ms`; nginx running
+- PCAP: EXP02-http-inject-redirect.pcapng
+
+First GET: Normal victim -> Links Server
+Second GET: mot-01 runs above (Injected packet ID: 24068 response to 117)
+
+## Experiment Three: IEC104 Inject Default Response
+
+- HMI (.103): QTester104
+- PLC: (.99) Winpp104 and clumsy set to 500ms lag.
+- HMI (.103): `python mots.py -l ens8 -i ens3 -b 'port 2404' -r '0x64010701010000000014' -d data/iec104.dat`
+	- Injected packet ID 35836 shuting down.
+- Qtester104 performs GI
+- PCAP: EXP03-iec104-inject-default-response.pcapng
+
+## Experiment Four: IEC104 Inject Two Single Value Response
+
+- HMI (.103): QTester104
+- PLC: (.99) Winpp104 and clumsy set to 500ms lag.
+- HMI (.103): `python mots.py -l ens8 -i ens3 -b 'port 2404' -r '0x64010701010000000014' -d data/iec104-two-single-points.dat`
+	- Injected packet ID 21672 shuting down.
+- Qtester104 performs GI
+- PCAP: EXP04-iec104-inject-two-single-value-response.pcapng
+
 # Alternative 
 
 ## Implementations
